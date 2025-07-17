@@ -45,7 +45,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+       return view('posts.show', compact('post'));
     }
 
     /**
@@ -53,7 +53,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $this->authorize('update', $post);
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -61,7 +62,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $this->authorize('update', $post);
+
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'body'  => 'required',
+    ]);
+
+    $post->update($data);
+
+    return redirect()->route('posts.show', $post)
+                     ->with('success', 'Post updated!');
     }
 
     /**
@@ -69,6 +80,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $this->authorize('delete', $post);
+    $post->delete();
+
+    return redirect()->route('posts.index')
+                     ->with('success', 'Post deleted!');
     }
 }
