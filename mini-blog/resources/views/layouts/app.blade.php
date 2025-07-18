@@ -39,7 +39,7 @@
   <!-- Vite includes your compiled CSS & JS -->
   @vite(['resources/js/app.js'])
 </head>
-<body class="antialiased bg-gray-100 text-gray-900">
+<body class="antialiased bg-orange-100 text-pink-900">
   <header class="bg-white shadow">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <a href="{{ route('posts.index') }}" class="font-bold text-xl">Mini Blog</a>
