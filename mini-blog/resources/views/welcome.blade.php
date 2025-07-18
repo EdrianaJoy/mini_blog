@@ -20,20 +20,25 @@
         @endif
     </head>
     <body class="bg-orange-100 text-rose-400 flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
+    
+    <div class="absolute right-[-22%] top-[-5%] w-[1000px] h-[1000px] bg-pink-400 opacity-60 rounded-full z-0"></div>
+    <div class="absolute right-[-18%] top-[10%] w-[800px] h-[800px] bg-pink-200 opacity-50 rounded-full z-0"></div>
+    <div class="absolute right-[-22%] top-[25%] w-[600px] h-[600px] bg-pink-100 opacity-40 rounded-full z-0"></div>
+    
+    <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
             @if (Route::has('login'))
                 <nav class="flex flex-col justify-end gap-4">
                     @auth 
                         <a
                             href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                            class="inline-block px-5 py-1.5 border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] rounded-sm text-sm leading-normal"
                         >
                             Dashboard
                         </a>
                     @else
                         <a
                             href="{{ route('login') }}"
-                            class="inline-block w-48 py-1.5 text-rose-400  border-rose-400 hover:border-rose-700 border rounded-full text-lg font-semibold leading-normal text-center"
+                            class="inline-block w-48 py-1.5 text-orange-100 bg-rose-400  border-rose-400 hover:border-rose-700 border rounded-full text-lg font-semibold leading-normal text-center"
                         >
                             Log in
                         </a>
