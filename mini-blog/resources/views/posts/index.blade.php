@@ -1,9 +1,9 @@
 <x-app-layout>
   <x-slot name="header">
     <div class="flex justify-between items-center">
-      <h2 class="font-semibold text-xl">All Posts</h2>
+      <h2 class="font-semibold text-xl text-rose-600">All Posts</h2>
       <a href="{{ route('posts.create') }}"
-         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+         class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-rose-700 font-semibold">
         New Post
       </a>
     </div>
@@ -11,9 +11,12 @@
 
   <div class="py-6">
     @if(session('success'))
-      <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-        {{ session('success') }}
-      </div>
+      <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 3000)" 
+        x-show="show"
+        class="bg-green-100 text-green-900 p-4 rounded mb-4 transition-all"
+    >
     @endif
 
     @if($posts->count())
@@ -39,11 +42,11 @@
               <td class="px-4 py-2">{{ $post->created_at->diffForHumans() }}</td>
               <td class="px-4 py-2 space-x-2">
                 <a href="{{ route('posts.show', $post) }}"
-                   class="text-indigo-600 hover:underline">View</a>
+                   class="text-rose-600 hover:underline">View</a>
 
                 @can('update', $post)
                   <a href="{{ route('posts.edit', $post) }}"
-                     class="text-yellow-600 hover:underline">Edit</a>
+                     class="text-orange-600 hover:underline">Edit</a>
                 @endcan
 
                 @can('delete', $post)
@@ -54,7 +57,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="text-red-600 hover:underline">
+                            class="text-pink-600 hover:underline">
                       Delete
                     </button>
                   </form>

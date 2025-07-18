@@ -45,7 +45,7 @@
       <a href="{{ route('posts.index') }}" class="font-bold text-white text-xl">Mini Blog</a>
       <nav class="space-x-4">
         @auth
-          <span>{{ auth()->user()->name }}</span>
+          <span class="text-pink-800 font-semibold ">{{ auth()->user()->name }}</span>
           <a href="{{ route('posts.create') }}" class="px-3 py-1 bg-rose-600 font-semibold text-white rounded">New Post</a>
           <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf

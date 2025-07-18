@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -36,8 +38,7 @@ class PostController extends Controller
 
     auth()->user()->posts()->create($data);
 
-    return redirect()->route('posts.index')
-                     ->with('success','Post created.');
+    return redirect()->route('dashboard')->with('success','Post created.');
     }
 
     /**
@@ -71,8 +72,7 @@ class PostController extends Controller
 
     $post->update($data);
 
-    return redirect()->route('posts.show', $post)
-                     ->with('success', 'Post updated!');
+    return redirect()->route('dashboard')->with('success','Post Updated.');
     }
 
     /**
@@ -83,7 +83,6 @@ class PostController extends Controller
         $this->authorize('delete', $post);
     $post->delete();
 
-    return redirect()->route('posts.index')
-                     ->with('success', 'Post deleted!');
+    return redirect()->route('dashboard')->with('success','Post deleted.');
     }
 }
