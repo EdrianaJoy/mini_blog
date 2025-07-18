@@ -29,8 +29,44 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+                <!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ $title ?? 'Mini Blog' }}</title>
+
+  <!-- Vite includes your compiled CSS & JS -->
+  @vite(['resources/js/app.js'])
+</head>
+<body class="antialiased bg-gray-100 text-gray-900">
+  <header class="bg-white shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="{{ route('posts.index') }}" class="font-bold text-xl">Mini Blog</a>
+      <nav class="space-x-4">
+        @auth
+          <span>{{ auth()->user()->name }}</span>
+          <a href="{{ route('posts.create') }}" class="px-3 py-1 bg-blue-600 text-white rounded">New Post</a>
+          <form method="POST" action="{{ route('logout') }}" class="inline">
+            @csrf
+            <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded">Logout</button>
+          </form>
+        @else
+          <a href="{{ route('login') }}" class="px-3 py-1">Login</a>
+          <a href="{{ route('register') }}" class="px-3 py-1">Register</a>
+        @endauth
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-6">
+    @if(session('success'))
+      <div class="mb-6 p-4 bg-green-100 text-green-800 rounded">
+        {{ session('success') }}
+      </div>
+    @endif
+
+    {{ $slot }}
+  </main>
+</body>
 </html>
