@@ -1,42 +1,42 @@
 <x-app-layout>
-  <x-slot name="header">
-    <div class="flex justify-between items-center">
-      <h2 class="font-semibold text-xl">{{ $post->title }}</h2>
-      <div class="space-x-2">
-        <a href="{{ route('posts.index') }}"
-           class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-          Back
-        </a>
-        @can('update', $post)
-          <a href="{{ route('posts.edit', $post) }}"
-             class="px-3 py-1 bg-yellow-200 rounded hover:bg-yellow-300">
-            Edit
-          </a>
-        @endcan
+  <div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div class="bg-pink-100 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 text-rose-900">
+
+          <!-- Title -->
+          <h1 class="text-3xl font-bold mb-4">{{ $post->title }}</h1>
+
+          <!-- Body: prose but no auto-margins -->
+          <div class="prose max-w-none mx-0 mb-6">
+            {{ $post->body }}
+          </div>
+
+          <!-- Buttons, flush left -->
+          <div class="flex items-center space-x-4">
+            <a
+              href="{{ route('dashboard') }}"
+              class="flex h-10 items-center justify-center px-4 rounded bg-rose-500 text-white hover:bg-rose-600 transition"
+            >
+              Back
+            </a>
+
+            @can('delete', $post)
+              <form action="{{ route('posts.destroy', $post) }}" method="POST" class="flex">
+                @csrf
+                @method('DELETE')
+                <button
+                  type="submit"
+                  class="flex h-10 items-center justify-center px-4 rounded bg-pink-500 text-white hover:bg-pink-600 transition"
+                >
+                  Delete Post
+                </button>
+              </form>
+            @endcan
+          </div>
+
+        </div>
       </div>
     </div>
-  </x-slot>
-
-  <div class="py-6">
-    <div class="prose">
-      {!! nl2br(e($post->body)) !!}
-    </div>
-    <p class="mt-6 text-sm text-gray-500">
-      Posted by {{ $post->user->name }} on {{ $post->created_at->format('M j, Y \a\t g:ia') }}
-    </p>
-
-    @can('delete', $post)
-      <form action="{{ route('posts.destroy', $post) }}"
-            method="POST"
-            class="mt-4"
-            onsubmit="return confirm('Are you sure?');">
-        @csrf
-        @method('DELETE')
-        <button type="submit"
-                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-          Delete Post
-        </button>
-      </form>
-    @endcan
   </div>
 </x-app-layout>

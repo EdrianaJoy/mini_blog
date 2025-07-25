@@ -18,15 +18,6 @@
         <div class="min-h-screen bg-orange-100">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-rose-200 shadow">
-                    <div class="max-w-7xl py-6 sm:px-6 lg:px-8 w-full">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
             <!-- Page Content -->
             <main>
                 <!DOCTYPE html>
@@ -47,24 +38,25 @@
         @auth
           <span class="text-pink-800 font-semibold ">{{ auth()->user()->name }}</span>
           <a href="{{ route('posts.create') }}" class="px-3 py-1 bg-rose-600 font-semibold text-white rounded">New Post</a>
-          <form method="POST" action="{{ route('logout') }}" class="inline">
-            @csrf
-            <button type="submit" class="px-3 py-1 bg-pink-500 font-semibold text-white rounded">Logout</button>
-          </form>
         @else
           <a href="{{ route('login') }}" class="px-3 py-1">Login</a>
-          <a href="{{ route('register') }}" class="px-3 py-1">Register</a>
         @endauth
       </nav>
     </div>
   </header>
 
   <main class="container mx-auto px-4 py-6">
-    @if(session('success'))
-      <div class="mb-6 p-4 bg-green-100 text-green-800 rounded">
-        {{ session('success') }}
-      </div>
-    @endif
+  @if(session('success'))
+    <div x-data="{ show: true }" 
+         x-show="show" 
+         x-init="setTimeout(() => show = false, 3000)"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="mb-6 p-4 bg-rose-100 text-pink-800 rounded">
+      {{ session('success') }}
+    </div>
+  @endif
 
     {{ $slot }}
   </main>

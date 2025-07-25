@@ -24,16 +24,20 @@
     <div class="absolute right-[-18%] top-[10%] w-[800px] h-[800px] bg-pink-200 opacity-50 rounded-full z-0"></div>
     <div class="absolute right-[-22%] top-[25%] w-[600px] h-[600px] bg-pink-100 opacity-40 rounded-full z-0"></div>
     
-     <div class="relative z-10 flex flex-col items-center w-full">
+    <div class="relative z-10 flex flex-col items-start w-full px-8">
         <!-- Logo block -->
-        <div class="mb-8 flex flex-col flex-start w-full max-w-xs">
+         <div class="mb-5 w-full max-w-xs">
     <img src="{{ asset('Sweet .png') }}" alt="Sweet Thoughts Logo" class="w-60 h-auto">
 </div>
 
         <!-- Main content -->
-        <main class="flex flex-col items-center w-full max-w-4xl">
-            <h1 class="text-4xl font-bold mb-4">Welcome to Sweet Thoughts</h1>
-            <p class="text-lg mb-6">Your personal blogging platform.</p>
+        <main class="flex flex-col items-start w-full max-w-4xl text-left">
+            <h1 class="text-4xl font-bold mb-2 font-serif">
+            Welcome to Sweet Thoughts
+            </h1>
+            <p class="text-lg mb-5 font-serif">
+            Your personal blogging platform.
+            </p>
 
             <!-- Content goes here -->
             <div class="w-full max-w-2xl">

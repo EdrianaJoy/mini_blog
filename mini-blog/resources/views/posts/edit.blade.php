@@ -39,11 +39,11 @@
 
       <div class="flex space-x-4">
         <button type="submit"
-                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700">
           Update
         </button>
         <a href="{{ route('posts.show', $post) }}"
-           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+           class="px-4 py-2 bg-pink-200 rounded hover:bg-pink-300">
           Cancel
         </a>
       </div>
