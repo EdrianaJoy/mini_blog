@@ -10,28 +10,15 @@ use App\Http\Controllers\AdminPostController;
 Route::get('/', fn() => view('welcome'));
 
 // All of these routes get the "web" middleware group automatically via RouteServiceProvider
-Route::middleware(['auth','role:admin'])
+Route::middleware(['auth','admin'])
      ->prefix('admin')
-     ->name('admin.')
+     ->as('admin.')
      ->group(function(){
-         Route::get('dashboard', fn() => view('admin.dashboard'))
+         Route::get('dashboard', [AdminDashboardController::class,'index'])
               ->name('dashboard');
-
-    // 2) Admin‐only panel; uses the **alias** "role:admin"
-    Route::prefix('admin')
-         ->as('admin.')
-         ->middleware(['role:admin'])    // <— here!
-         ->group(function () {
-             // GET /admin/dashboard
-             Route::get('dashboard', [AdminDashboardController::class, 'index'])
-     ->name('dashboard');
-
-             // Approve / Reject buttons
-             Route::post('posts/{post}/approve', [AdminPostController::class,'approve'])
-                  ->name('posts.approve');
-             Route::post('posts/{post}/reject',  [AdminPostController::class,'reject'])
-                  ->name('posts.reject');
-         });
+        Route::post('posts/{post}/approve', [AdminPostController::class,'approve'])->name('posts.approve');
+        Route::post('posts/{post}/reject',  [AdminPostController::class,'reject'])->name('posts.reject');
+ 
 
     // 3) Public CRUD routes
     Route::resource('posts', PostController::class);
