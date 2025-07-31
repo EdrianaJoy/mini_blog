@@ -16,4 +16,19 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status','published');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status','pending');
+    }
+
+    public function scopeDeleted($query)
+    {
+        return $query->where('status','deleted');
+    }
 }

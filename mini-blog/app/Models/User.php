@@ -9,6 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasRoles;  
     use HasFactory, Notifiable, HasRoles;
 
     protected $fillable = [
@@ -34,4 +35,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class)->latest();
     }
+
+    public function isAdmin(): bool
+{
+    return $this->hasRole('admin');
+}
 }

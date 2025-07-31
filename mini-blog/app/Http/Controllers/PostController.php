@@ -13,12 +13,20 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    // eager-load user to avoid N+1 queries
-    $posts = Post::with('user')->latest()->paginate(10);
+    {
+        if (auth()->user()->hasRole('admin')) {
+            // Admin sees *all* posts
+            $posts = Post::latest()->paginate(10);
+        } else {
+            // Regular users see only their own
+            $posts = auth()->user()
+                          ->posts()
+                          ->latest()
+                          ->paginate(10);
+        }
 
-    return view('posts.index', compact('posts'));
-}
+        return view('posts.index', compact('posts'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -32,16 +40,17 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'body'  => 'required|string',
+{
+    $data = $request->validate([
+      'title' => 'required|string',
+      'body'  => 'required|string',
     ]);
 
     auth()->user()->posts()->create($data);
 
-    return redirect()->route('dashboard')->with('success','Post created.');
-    }
+    return redirect()->route('posts.index')
+                     ->with('success','Your post is pending review.');
+}
 
     /**
      * Display the specified resource.

@@ -23,7 +23,10 @@
     <!-- Header -->
     <header class="bg-white shadow">
       <div class="w-full py-4 px-9 bg-rose-300 flex justify-between items-center">
-        <a href="{{ route('posts.index') }}" class="font-bold text-white text-xl">Mini Blog</a>
+        <!-- Changed this route: -->
+        <a href="{{ route('admin.dashboard') }}" class="font-bold text-white text-xl">
+          Mini Blog
+        </a>
 
         <nav class="flex items-center space-x-4">
           @auth
@@ -66,8 +69,8 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-6">
       @if(session('success'))
-        <div x-data="{ show: true }" 
-             x-show="show" 
+        <div x-data="{ show: true }"
+             x-show="show"
              x-init="setTimeout(() => show = false, 3000)"
              x-transition:leave="transition ease-in duration-300"
              x-transition:leave-start="opacity-100"
