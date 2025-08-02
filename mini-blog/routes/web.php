@@ -7,32 +7,52 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminPostController;
 
+// 1) Public homepage
 Route::get('/', fn() => view('welcome'));
 
-// All of these routes get the "web" middleware group automatically via RouteServiceProvider
-Route::middleware(['auth','admin'])
-     ->prefix('admin')
-     ->as('admin.')
-     ->group(function(){
-         Route::get('dashboard', [AdminDashboardController::class,'index'])
-              ->name('dashboard');
-        Route::post('posts/{post}/approve', [AdminPostController::class,'approve'])->name('posts.approve');
-        Route::post('posts/{post}/reject',  [AdminPostController::class,'reject'])->name('posts.reject');
- 
+// 2) Shared “dashboard” for all logged-in users
+Route::middleware(['auth', 'verified'])
+    ->get('/dashboard', function () {
+        // if you’re an admin, bounce into the admin area
+        if (auth()->user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+        // otherwise show your regular dashboard view
+        return view('dashboard');
+    })
+    ->name('dashboard');
 
-    // 3) Public CRUD routes
-    Route::resource('posts', PostController::class);
+// 3) Admin-only routes
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(function () {
+        // GET /admin/dashboard → named “admin.dashboard”
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+            ->name('dashboard');
 
-    // 4) Profile
-    Route::get('/profile',   [ProfileController::class,'edit'])   ->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class,'update'])->name('profile.update');
-    Route::delete('/profile',[ProfileController::class,'destroy'])->name('profile.destroy');
+        // extra admin post actions
+        Route::post('posts/{post}/approve', [AdminPostController::class, 'approve'])
+            ->name('posts.approve');
+        Route::post('posts/{post}/reject', [AdminPostController::class, 'reject'])
+            ->name('posts.reject');
 
-    // 5) Roles management (if you need it)
-    Route::resource('roles', RoleController::class);
-    Route::post('assign-role',[RoleController::class,'assignRole'])
-         ->name('assign.role');
-});
+        // regular CRUD under /admin/posts
+        Route::resource('posts', PostController::class);
 
-// Laravel Breeze / Jetstream auth routes
-require __DIR__.'/auth.php';
+        // profile management
+        Route::get('profile', [ProfileController::class, 'edit'])
+            ->name('profile.edit');
+        Route::patch('profile', [ProfileController::class, 'update'])
+            ->name('profile.update');
+        Route::delete('profile', [ProfileController::class, 'destroy'])
+            ->name('profile.destroy');
+
+        // roles & permissions
+        Route::resource('roles', RoleController::class);
+        Route::post('assign-role', [RoleController::class, 'assignRole'])
+            ->name('assign.role');
+    });
+
+// 4) Breeze/Jetstream auth routes
+require __DIR__ . '/auth.php';

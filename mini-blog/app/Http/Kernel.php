@@ -26,19 +26,16 @@ class Kernel extends HttpKernel
         ],
     ];
 
-    protected $routeMiddleware = [
+     protected $routeMiddleware = [
         'admin'               => EnsureUserIsAdmin::class,
-        'auth'                => \App\Http\Middleware\Authenticate::class,
-        'auth.basic'          => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'cache.headers'       => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can'                 => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest'               => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'password.confirm'    => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'signed'              => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle'            => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified'            => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
-        // ← Spatie “role” aliases must be here:
+        'auth'                => \App\Http\Middleware\Authenticate::class,
+        'guest'               => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'verified'            => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'throttle'            => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'can'                 => \Illuminate\Auth\Middleware\Authorize::class,
+        'signed'              => \Illuminate\Routing\Middleware\ValidateSignature::class,
+
         'role'                => RoleMiddleware::class,
         'permission'          => PermissionMiddleware::class,
         'role_or_permission'  => RoleOrPermissionMiddleware::class,

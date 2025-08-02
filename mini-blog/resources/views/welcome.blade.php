@@ -31,19 +31,26 @@
       <p class="text-lg mb-5 font-serif">Your personal blogging platform.</p>
 
       {{-- Auth buttons BELOW the paragraph --}}
-      @if(Route::has('login'))
+      @if (Route::has('login'))
         <div class="flex space-x-4 mt-2">
           @auth
-            <a href="{{ route('dashboard') }}"
-               class="px-4 py-2 bg-pink-600 text-white rounded">
-              Dashboard
-            </a>
+            @if (auth()->user()->hasRole('admin'))
+              <a href="{{ route('admin.dashboard') }}"
+                 class="px-4 py-2 bg-pink-600 text-white rounded">
+                Admin Dashboard
+              </a>
+            @else
+              <a href="{{ route('dashboard') }}"
+                 class="px-4 py-2 bg-pink-600 text-white rounded">
+                Dashboard
+              </a>
+            @endif
           @else
             <a href="{{ route('login') }}"
                class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700">
               Log in
             </a>
-            @if(Route::has('register'))
+            @if (Route::has('register'))
               <a href="{{ route('register') }}"
                  class="px-4 py-2 bg-pink-300 text-pink-700 rounded hover:bg-pink-200">
                 Create Account
@@ -52,8 +59,8 @@
           @endauth
         </div>
       @endif
-    </main>
 
+    </main>
   </div>
 </body>
 </html>
